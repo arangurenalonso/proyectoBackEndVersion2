@@ -34,7 +34,7 @@ class RegisterView(generics.GenericAPIView):
         token = RefreshToken.for_user(user).access_token
 
         relative_link = reverse_lazy('mail_verify')
-        url = f'https://hackathonfinal.herokuapp.com/{relative_link}?token={token}'
+        url = f'https://backendproyectofinal.herokuapp.com{relative_link}?token={token}'
 
         data = {
             'subject': 'Confirmar cuenta',
@@ -112,7 +112,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             relative_link = reverse('password_reset', kwargs={'uidb64': uidb64, 'token': token})
-            url = f'https://hackathonfinal.herokuapp.com/{relative_link}'
+            url = f'https://backendproyectofinal.herokuapp.com{relative_link}'
 
             data = {
                 'subject': 'Resetear contraseña',
