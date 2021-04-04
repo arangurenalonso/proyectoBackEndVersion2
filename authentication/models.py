@@ -6,23 +6,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
-        if username is None:
+    def create_user(self, nombreCompleto, email, password=None):
+        if nombreCompleto is None:
             raise TypeError('El usuario no se ha ingresado')
 
         if email is None:
             raise TypeError('El correo no se ha ingresado')
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(nombreCompleto=nombreCompleto, email=self.normalize_email(email))
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, email, password=None):
+    def create_superuser(self, nombreCompleto, email, password=None):
         if password is None:
             raise TypeError('La contraseña no se ha ingresado')
         
-        user = self.create_user(username, email, password)
+        user = self.create_user(nombreCompleto, email, password)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -30,7 +30,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True, db_index=True)
+    username = models.CharField(max_length=255, null=True, blank=True, default=None)
+    nombreCompleto=models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -39,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['nombreCompleto']
 
     objects = UserManager()
 

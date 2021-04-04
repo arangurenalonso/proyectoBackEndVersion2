@@ -38,7 +38,7 @@ class RegisterView(generics.GenericAPIView):
 
         data = {
             'subject': 'Confirmar cuenta',
-            'body': f'Hola {user.username}, usa este link para confirmar tu cuenta {url}',
+            'body': f'Hola {user.nombreCompleto}, usa este link para confirmar tu cuenta {url}',
             'to': f'{user.email}'
         }
 
@@ -116,7 +116,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
             data = {
                 'subject': 'Resetear contraseña',
-                'body': f'Hola {user.username}, usa este link para resetear tu contraseña {url}',
+                'body': f'Hola {user.nombreCompleto}, usa este link para resetear tu contraseña {url}',
                 'to': f'{user.email}'
             }
 

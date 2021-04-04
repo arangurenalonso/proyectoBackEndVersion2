@@ -12,20 +12,20 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=60, min_length=6, write_only=True)
 
-    default_error_messages = {
-        'username': 'El usuario solo debe contener caracteres alfanumericos'
-    }
+    #default_error_messages = {
+    #    'username': 'El usuario solo debe contener caracteres alfanumericos'
+    #}
 
     class Meta: 
         model = User
-        fields = ['email', 'username', 'password']
+        fields = ['email', 'nombreCompleto', 'password']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
-        username = attrs.get('username', '')
+        nombreCompleto = attrs.get('nombreCompleto', '')
 
-        if not username.isalnum():
-            raise serializers.ValidationError(self.default_error_messages)
+        #if not username.isalnum():
+        #    raise serializers.ValidationError(self.default_error_messages)
         return attrs
 
     def create(self, validated_data):
@@ -43,7 +43,7 @@ class EmailVerifySerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=3)
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
-    username = serializers.CharField(max_length=255, min_length=3, read_only=True)
+    nombreCompleto = serializers.CharField(max_length=255, min_length=3, read_only=True)
     tokens = serializers.SerializerMethodField()
 
     def get_tokens(self, obj):
@@ -56,7 +56,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'username', 'tokens']
+        fields = ['email', 'password', 'nombreCompleto', 'tokens']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
@@ -74,7 +74,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         return {
             'email': user.email,
-            'username': user.username,
+            'nombreCompleto': user.nombreCompleto,
             'tokens': user.tokens
         }
 
