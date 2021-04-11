@@ -16,6 +16,7 @@ class HorarioAdmin(admin.ModelAdmin):
     list_display = ['frequency', 'schedule', 'inicio_id']
 
 
+
 @admin.register(Unit)
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['unit_name']
